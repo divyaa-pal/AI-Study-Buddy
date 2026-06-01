@@ -16,7 +16,7 @@ AI-Powered Study Buddy helps students summarize notes, generate quizzes, and cre
 ## 🛠 Tech Stack
 - Python
 - Streamlit
-  - PyPDF2
+- PyPDF2
 
 ## ▶️ Run Project
 
