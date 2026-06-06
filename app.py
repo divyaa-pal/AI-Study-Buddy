@@ -1,14 +1,29 @@
+from dotenv import load_dotenv
+load_dotenv()
 import streamlit as st
 
 import PyPDF2
+import google.generativeai as genai
+# Load CSS
+with open("style.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 # ----------------------------
 # Page Config
 # ----------------------------
 st.set_page_config(page_title="AI Study Buddy", layout="centered")
 
-st.title("📚 AI-Powered Study Buddy")
+st.markdown("""
+<h1 style='text-align:center; color:blue;'>
+📚 AI-Powered Study Buddy
+</h1>
+""", unsafe_allow_html=True)
 st.write("Smart AI assistant for students")
+# Gemini API Configuration
+import os
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+model = genai.GenerativeModel("gemini-2.5-flash")
 
 
 
@@ -44,11 +59,12 @@ if st.button("Generate Summary"):
     if notes.strip() == "":
         st.warning("Please enter notes!")
     else:
-        sentences = notes.split(".")
-        summary = ".".join(sentences[:3])
+        response = model.generate_content(
+            f"Summarize these study notes:\n{notes}"
+        )
 
         st.subheader("📌 Summary")
-        st.success(summary)
+        st.success(response.text)
 
 # ----------------------------
 # Quiz Generator
@@ -58,13 +74,12 @@ if st.button("Generate Quiz"):
     if notes.strip() == "":
         st.warning("Please enter notes!")
     else:
-        st.subheader("🧠 Quiz Questions")
+        response = model.generate_content(
+            f"Generate 5 quiz questions from these notes:\n{notes}"
+        )
 
-        st.write("1. What is the main topic of the notes?")
-        st.write("2. Explain the important concepts.")
-        st.write("3. Write short notes on the topic.")
-        st.write("4. What are the advantages discussed?")
-        st.write("5. Summarize the chapter in your own words.")
+        st.subheader("🧠 Quiz Questions")
+        st.write(response.text)
 
 # ----------------------------
 # Flashcards
@@ -74,11 +89,12 @@ if st.button("Generate Flashcards"):
     if notes.strip() == "":
         st.warning("Please enter notes!")
     else:
-        st.subheader("🃏 Flashcards")
+        response = model.generate_content(
+            f"Create flashcards from these notes:\n{notes}"
+        )
 
-        st.info("📌 Flashcard 1: Main Concept")
-        st.info("📌 Flashcard 2: Important Definition")
-        st.info("📌 Flashcard 3: Key Points")
+        st.subheader("🃏 Flashcards")
+        st.write(response.text)
 
 # ----------------------------
 # Footer
