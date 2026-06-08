@@ -1,9 +1,7 @@
-from dotenv import load_dotenv
-load_dotenv()
 import streamlit as st
-
 import PyPDF2
 import google.generativeai as genai
+st.set_page_config(page_title="AI Study Buddy", layout="centered")
 # Load CSS
 with open("style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
@@ -11,8 +9,6 @@ with open("style.css") as f:
 # ----------------------------
 # Page Config
 # ----------------------------
-st.set_page_config(page_title="AI Study Buddy", layout="centered")
-
 st.markdown("""
 <h1 style='text-align:center; color:blue;'>
 📚 AI-Powered Study Buddy
@@ -20,8 +16,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 st.write("Smart AI assistant for students")
 # Gemini API Configuration
-import os
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
 model = genai.GenerativeModel("gemini-2.5-flash")
 
