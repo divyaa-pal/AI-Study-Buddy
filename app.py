@@ -54,12 +54,16 @@ if st.button("Generate Summary"):
     if notes.strip() == "":
         st.warning("Please enter notes!")
     else:
-        response = model.generate_content(
-            f"Summarize these study notes:\n{notes}"
-        )
+        try:
+            response = model.generate_content(
+                f"Summarize these study notes:\n{notes}"
+            )
 
-        st.subheader("📌 Summary")
-        st.success(response.text)
+            st.subheader("📌 Summary")
+            st.success(response.text)
+
+        except Exception:
+            st.error("Gemini API quota reached. Please try again later.")
 
 # ----------------------------
 # Quiz Generator
@@ -69,12 +73,16 @@ if st.button("Generate Quiz"):
     if notes.strip() == "":
         st.warning("Please enter notes!")
     else:
-        response = model.generate_content(
-            f"Generate 5 quiz questions from these notes:\n{notes}"
-        )
+        try:
+            response = model.generate_content(
+                f"Generate 5 quiz questions from these notes:\n{notes}"
+            )
 
-        st.subheader("🧠 Quiz Questions")
-        st.write(response.text)
+            st.subheader("🧠 Quiz Questions")
+            st.write(response.text)
+
+        except Exception:
+            st.error("Gemini API quota reached. Please try again later.")
 
 # ----------------------------
 # Flashcards
@@ -84,12 +92,16 @@ if st.button("Generate Flashcards"):
     if notes.strip() == "":
         st.warning("Please enter notes!")
     else:
-        response = model.generate_content(
-            f"Create flashcards from these notes:\n{notes}"
-        )
+        try:
+            response = model.generate_content(
+                f"Create flashcards from these notes:\n{notes}"
+            )
 
-        st.subheader("🃏 Flashcards")
-        st.write(response.text)
+            st.subheader("🃏 Flashcards")
+            st.write(response.text)
+
+        except Exception:
+            st.error("Gemini API quota reached. Please try again later.")
 
 # ----------------------------
 # Footer
